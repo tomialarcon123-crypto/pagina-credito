@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Crédito de Consumo</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<h1>Simulador Crédito de Consumo</h1>
+
+<div class="card">
+  <h2>Datos del crédito</h2>
+  <label>Banco</label>
+  <select id="selectBanco">
+    <option value="0.0149">BancoEstado – 1.49% mensual</option>
+    <option value="0.0098" selected>Ejemplo – 0.98% mensual</option>
+    <option value="0.0099">BCI – 0.99% mensual</option>
+    <option value="0.0139">Santander – 1.39% mensual</option>
+  </select>
+
+  <label>Monto (CLP)</label>
+  <input type="number" id="monto" value="4000000">
+
+  <label>Plazo (meses)</label>
+  <input type="number" id="meses" value="24">
+
+  <label>Tasa mensual (decimal)</label>
+  <input type="number" step="0.0001" id="tasa" value="0.0098">
+
+  <div style="display:flex; justify-content:space-between;">
+    <button id="btnCalcular">Calcular</button>
+    <button id="btnReset" class="reset">Reset</button>
+  </div>
+
+  <div class="small">
+    Nota: El valor de la cuota es referencial y <strong>no incluye seguros ni comisiones</strong>. Consulte el CAE en el banco.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Resultado</h2>
+  <div style="font-size:1.1em; margin-bottom:20px;"><strong>Valor cuota:</strong> <span id="pagoMensual" style="color:#00c4ff; font-size:1.3em; font-weight:700;">-</span> CLP</div>
+
+  <h3>Tabla de amortización</h3>
+  <table>
+    <thead>
+      <tr><th>N°</th><th>Cuota</th><th>Interés</th><th>Amortización</th><th>Saldo</th></tr>
+    </thead>
+    <tbody id="cuerpoAmortizacion"></tbody>
+  </table>
+</div>
+
+<!-- SECCIONES EDUCATIVAS -->
+
+<div class="info-section">
+  <h2>¿Qué es un crédito de consumo?</h2>
+  <p>Un crédito de consumo es un préstamo que otorgan los bancos e instituciones financieras a personas para financiar la compra de bienes o servicios. El dinero se entrega en una sola cuota y se devuelve en cuotas mensuales durante un plazo determinado, pagando intereses por el uso del dinero.</p>
+  <p style="margin-top:15px;">Es una herramienta financiera útil cuando se utiliza de manera responsable, permitiéndote acceder a bienes o servicios que necesitas sin tener que esperar a ahorrar el monto completo.</p>
+</div>
+
+<div class="info-section">
+  <h2>¿Cuándo solicitar un crédito de consumo?</h2>
+  
+  <div class="success-box">
+    <p style="margin-top:0;"><span class="success">✓</span> <strong>Es recomendable solicitarlo cuando:</strong></p>
+    <ul class="info-list">
+      <li><strong>Emergencias médicas:</strong> Gastos de salud urgentes no cubiertos por seguros.</li>
+      <li><strong>Inversión en educación:</strong> Cursos o estudios que mejoren tus ingresos futuros.</li>
+      <li><strong>Reparaciones esenciales:</strong> Arreglos urgentes en tu vivienda o vehículo necesario para trabajar.</li>
+      <li><strong>Consolidación de deudas:</strong> Unificar deudas más caras (tarjetas de crédito) en una sola con menor tasa.</li>
+      <li><strong>Emprendimiento:</strong> Capital inicial para un negocio con plan de retorno claro.</li>
+    </ul>
+  </div>
+  
+  <div class="warning-box">
+    <p style="margin-top:0;"><span class="warning">✗</span> <strong>No es recomendable para:</strong></p>
+    <ul class="info-list" style="margin-bottom:5px;">
+      <li>Gastos superfluos o compras impulsivas</li>
+      <li>Vacaciones o entretenimiento sin capacidad de pago</li>
+      <li>Cuando ya tienes un alto nivel de endeudamiento</li>
+    </ul>
+  </div>
+</div>
+
+<div class="info-section">
+  <h2>Costos asociados a un crédito</h2>
+  <p>Al solicitar un crédito, pagas más que solo el monto prestado. Los costos incluyen:</p>
+  <ul class="info-list">
+    <li><strong>Intereses:</strong> Es el precio que pagas por usar el dinero del banco. Se calcula como un porcentaje del saldo pendiente.</li>
+    <li><strong>Seguro de desgravamen:</strong> Cubre el saldo del crédito en caso de fallecimiento o invalidez del deudor.</li>
+    <li><strong>Seguro de cesantía (opcional):</strong> Cubre las cuotas si quedas desempleado.</li>
+    <li><strong>Comisiones:</strong> Algunos bancos cobran comisión de apertura o por prepago del crédito.</li>
+    <li><strong>Gastos notariales:</strong> En algunos casos, para formalizar el crédito.</li>
+  </ul>
+  <div class="info-box" style="margin-top:20px;">
+    <p style="margin:0;">💡 <strong>Importante:</strong> Todos estos costos deben estar incluidos en el CAE que te muestra el banco.</p>
+  </div>
+</div>
+
+<div class="info-section">
+  <h2>¿En qué fijarse al solicitar un crédito?</h2>
+  
+  <div class="info-box">
+    <p style="margin-top:0;"><strong class="highlight">El CAE (Carga Anual Equivalente)</strong> es el indicador más importante. Es un porcentaje que incluye la tasa de interés más <strong>todos</strong> los costos asociados (seguros, comisiones, gastos). Te permite comparar créditos de diferentes bancos de forma justa.</p>
+  </div>
+  
+  <h3>Otros factores a considerar:</h3>
+  <ul class="info-list">
+    <li><strong>Monto de la cuota:</strong> Debe ser máximo el 25-30% de tus ingresos líquidos.</li>
+    <li><strong>Plazo:</strong> A mayor plazo, menor cuota pero más intereses totales pagados.</li>
+    <li><strong>Flexibilidad:</strong> Posibilidad de prepagar sin penalización.</li>
+    <li><strong>Requisitos:</strong> Antigüedad laboral, nivel de ingresos, historial crediticio.</li>
+  </ul>
+  
+  <div class="info-box" style="margin-top:20px;">
+    <p style="margin:0;">💡 <strong>Tip:</strong> Siempre compara el CAE entre diferentes bancos, no solo la tasa de interés mensual. Un crédito con tasa baja pero muchas comisiones puede terminar siendo más caro.</p>
+  </div>
+</div>
+
+<div class="info-section">
+  <h2>¿Cómo se calcula la cuota mensual?</h2>
+  <p>La cuota se calcula usando la siguiente fórmula matemática:</p>
+  
+  <div class="formula-box">
+    Cuota = M × (i / (1 - (1 + i)<sup>-n</sup>))
+  </div>
+  
+  <p style="margin-top:15px;"><strong>Donde:</strong></p>
+  <ul class="info-list">
+    <li><strong>M</strong> = Monto del crédito</li>
+    <li><strong>i</strong> = Tasa de interés mensual (en decimal, ej: 0.0098 para 0.98%)</li>
+    <li><strong>n</strong> = Número de cuotas (meses)</li>
+  </ul>
+  
+  <h3>Componentes de cada cuota:</h3>
+  
+  <div class="info-box">
+    <p style="margin-top:0;"><strong class="highlight">1. Intereses:</strong> Es lo que el banco cobra por prestarte el dinero. Se calcula multiplicando el saldo pendiente por la tasa mensual. Al inicio del crédito pagas más intereses porque el saldo es mayor.</p>
+  </div>
+  
+  <div class="info-box">
+    <p style="margin-top:0;"><strong class="highlight">2. Amortización:</strong> Es la parte de la cuota que reduce tu deuda real. Es lo que efectivamente estás pagando del capital prestado. Con el tiempo, la amortización aumenta mientras los intereses disminuyen.</p>
+  </div>
+  
+  <div class="example-box">
+    <p style="margin-top:0;"><strong class="success">📊 Ejemplo práctico:</strong></p>
+    <p>Si tienes un saldo de <strong>$4.000.000</strong> con tasa de <strong>0.98% mensual</strong>:</p>
+    <ul class="info-list">
+      <li>Interés mes 1 = $4.000.000 × 0.0098 = <span class="highlight">$39.200</span></li>
+      <li>Si tu cuota es $185.000, entonces Amortización = $185.000 - $39.200 = <span class="highlight">$145.800</span></li>
+      <li>Saldo nuevo = $4.000.000 - $145.800 = <span class="highlight">$3.854.200</span></li>
+    </ul>
+    <p class="small" style="margin-bottom:0;">📝 En la tabla de amortización arriba puedes ver cómo mes a mes los intereses bajan y la amortización sube hasta pagar todo el crédito.</p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
